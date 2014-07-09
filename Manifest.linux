@@ -15,5 +15,6 @@ common-components/default-gems
 linux-components/heroku
 linux-components/github
 linux-components/rcm
+common-components/oh-my-zsh
 linux-components/project-additions
 common-components/personal-additions

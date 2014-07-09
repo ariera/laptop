@@ -14,12 +14,14 @@ fancy_echo "Installing phantomjs, a headless WebKit scriptable with a JavaScript
   # rm phantomjs-1.9.2-linux-i686.tar.bz2
   # mv phantomjs-1.9.2-linux-i686 ~/phantomjs
   # echo 'export PATH="~/phantomjs/bin/:$PATH"' >> /home/vagrant/.zshrc
+  old_path=$(pwd)
   cd /usr/local/share
   sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
   sudo tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2
   sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
   sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
   sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+  cd $old_path
 
 fancy_echo "Installing mailcatcher, a super simple SMTP server which catches any message sent to it to display in a web interface ..."
   gem install mailcatcher --no-document
@@ -29,3 +31,12 @@ fancy_echo "Changing root user password"
 
 fancy_echo "Dependencies for RSpec"
   sudo apt-get install xvfb
+
+fancy_echo "Installing templates"
+  if [[ ! -d "$HOME/.rbenv/plugins/rbenv-sudo/" ]]; then
+    mkdir -p ~/.rbenv/plugins
+    git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
+  fi
+  rbenv sudo bundle exec ruby linux-components/templates.rb
+
+# TODO: set oh-my-zsh theme to "clean"

@@ -1,0 +1,32 @@
+# this works 2+2=<%= 2 + 2 %>
+upstream local_3000{
+  server 127.0.0.1:3000;
+}
+
+server {
+    server_name localhost;
+    listen 80;
+    listen 443 default ssl;
+
+    #ssl on;
+    ssl_certificate     /etc/nginx/certificates/myssl.crt;
+    ssl_certificate_key /etc/nginx/certificates/myssl.key;
+
+    root /home/vagrant/orly;
+    access_log /var/log/nginx/orly_access.log;
+    rewrite_log on;
+
+    client_max_body_size       10m;
+
+
+    #remove trailing slash
+    rewrite ^(.+)/$ $1 permanent;
+
+    location / {
+        proxy_pass  http://local_3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+}
