@@ -1,4 +1,4 @@
-`bash <(wget -qO- https://github.com/ariera/laptop/blob/master/linux-remote)`
+`bash <(wget -qO- https://raw.githubusercontent.com/ariera/laptop/master/linux-remote)`
 
 Laptop
 ======
