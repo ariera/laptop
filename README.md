@@ -1,3 +1,5 @@
+`bash <(wget -qO- https://github.com/ariera/laptop/blob/master/linux-remote)
+
 Laptop
 ======
 

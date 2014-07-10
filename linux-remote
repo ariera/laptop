@@ -1,0 +1,6 @@
+install_dir=$HOME/tmp/laptop
+rm -Rf $install_dir
+mkdir -p $install_dir
+hash git >/dev/null 2>&1 && /usr/bin/env git clone https://github.com/ariera/laptop.git $install_dir
+cd $install_dir
+bash linux
