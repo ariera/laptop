@@ -38,4 +38,30 @@ MiniChef.define do
     mode 0644
   end
 
+  execute "sudo service nginx restart"
+
+  replace "#{ENV['HOME']}/.zshrc" do
+    what /^ZSH_THEME.*$/
+    with %{ZSH_THEME="clean"}
+  end
+
+  replace "#{ENV['HOME']}/.zshrc" do
+    what /\Z/ #append at the end of the document
+    with %{
+      alias rs="bundle exec rails s"
+      alias rc="bundle exec rails c"
+      alias rt="bundle exec rspec spec"
+      alias rcu="bundle exec cucumber"
+
+      alias bs="bin/rails s"
+      alias bc="bin/rails c"
+      alias bt="bin/rspec spec"
+      alias bcu="bin/cucumber"
+
+      function gdd {
+        grep -inIEr --color=ALWAYS $1 $2
+      }
+    }
+  end
+
 end

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/fsainz/mini_chef.git
-  revision: ba61ad03ffbbcb82ecd03c34032e35e6b5000c9c
+  revision: 3e81a3df852414434ef8eb0a5c2c08aed3e6427e
   specs:
     mini_chef (0.0.1)
 

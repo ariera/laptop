@@ -1,0 +1,3 @@
+fancy_echo "Launching your new shell. Your system is now ready :)"
+  /usr/bin/env zsh
+  source ~/.zshrc

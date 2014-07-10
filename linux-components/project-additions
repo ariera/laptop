@@ -1,42 +1,34 @@
-# linux-components/nginx
-# linux-components/wordpress
-# linux-components/phantom_js
-# linux-components/templates
-# gem_package "mailcatcher"
-
 fancy_echo "Installing nginx, a high performance open source web server ..."
   sudo aptitude install -y nginx
   sudo update-rc.d nginx defaults
 
 fancy_echo "Installing phantomjs, a headless WebKit scriptable with a JavaScript API ..."
-  # wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2
-  # tar xvjf phantomjs-1.9.2-linux-i686.tar.bz2
-  # rm phantomjs-1.9.2-linux-i686.tar.bz2
-  # mv phantomjs-1.9.2-linux-i686 ~/phantomjs
-  # echo 'export PATH="~/phantomjs/bin/:$PATH"' >> /home/vagrant/.zshrc
-  old_path=$(pwd)
-  cd /usr/local/share
-  sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
-  sudo tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2
-  sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
-  sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
-  sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
-  cd $old_path
+  if [[ ! -f "/usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs" ]]; then
+    old_path=$(pwd)
+    cd /usr/local/share
+    sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
+    sudo tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2
+    sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
+    sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
+    sudo ln -sf /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+    cd $old_path
+  else
+    fancy_echo "\t...already installed. Lets continue"
+  fi
 
 fancy_echo "Installing mailcatcher, a super simple SMTP server which catches any message sent to it to display in a web interface ..."
   gem install mailcatcher --no-document
 
-fancy_echo "Changing root user password"
+fancy_echo "Changing PostgreSQL root password"
   sudo -u postgres psql -U postgres -d postgres -c "alter user postgres with password 'qwerty';"
 
-fancy_echo "Dependencies for RSpec"
-  sudo apt-get install xvfb
+fancy_echo "Installing dependencies for RSpec"
+  sudo aptitude install -y xvfb
 
 fancy_echo "Installing templates"
+  bundle install
   if [[ ! -d "$HOME/.rbenv/plugins/rbenv-sudo/" ]]; then
     mkdir -p ~/.rbenv/plugins
     git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
   fi
   rbenv sudo bundle exec ruby linux-components/templates.rb
-
-# TODO: set oh-my-zsh theme to "clean"
